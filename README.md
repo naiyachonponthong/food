@@ -2,7 +2,8 @@
 
 Restaurant Mobile Order system. See `SYSTEM_DESIGN.md` for full architecture.
 
-> Built in parts. **Part 1** — Customer App (PWA). **Part 2** — POS App (Staff + Kitchen Display).
+> Built in parts. **Part 1** — Customer PWA. **Part 2** — POS + Kitchen Display.
+> **Part 3** — Owner Console (Dashboard, P&L Reports, Menu/Tables/Expenses, Settings).
 
 ## Stack (current)
 
@@ -18,7 +19,8 @@ Restaurant Mobile Order system. See `SYSTEM_DESIGN.md` for full architecture.
 mobile-order/
 ├── apps/
 │   ├── customer/        # Part 1: Customer PWA (port 3000)
-│   └── pos/             # Part 2: POS + Kitchen Display (port 3001)
+│   ├── pos/             # Part 2: POS + Kitchen Display (port 3001)
+│   └── owner/           # Part 3: Owner Console (port 3002)
 ├── packages/            # (shared types/ui — coming in later parts)
 ├── pnpm-workspace.yaml
 ├── package.json
@@ -36,6 +38,9 @@ pnpm dev:customer
 
 # POS + Kitchen — http://localhost:3001
 pnpm dev:pos
+
+# Owner Console — http://localhost:3002
+pnpm dev:owner
 ```
 
 Customer: open `http://localhost:3000` → tap "ลองใช้งานเดโม" → demo session at `/demo-session-token`.
@@ -64,8 +69,30 @@ POS: open `http://localhost:3001` → redirects to `/tables`. Use "จำลอ�
 - Payments page — pending bill requests + recent payments log
 - "จำลองเหตุการณ์" button — pushes a random mock notification to demonstrate real-time flow (will swap for Pusher subscription in Part 5)
 
+## Part 3 — Owner Console: what's done
+
+- Sidebar with branding + Pro plan card + 7 nav items
+- **Dashboard** — today's stats (revenue/orders/active tables/pending orders),
+  monthly sales line chart, P&L summary (Revenue → COGS → GP → Expenses →
+  Net), top-5 menus horizontal bars, hourly heatmap
+- **Menus** — list view with category tabs, search, availability toggle,
+  cost vs price, monthly sold count
+- **Categories** — drag-grip list with active toggle
+- **Tables & QR** — grid by zone + side QR preview panel with download/print,
+  free-sticker registration CTA
+- **Expenses** — gradient hero card with total + per-category breakdown bars,
+  recent entries table
+- **Reports (P&L)** — 4 metric cards, daily trend line chart, formal
+  P&L statement (revenue by category → COGS → gross profit → expenses
+  by category → net profit), category & profit-by-menu bars
+- **Settings** — tabs (ข้อมูลร้าน / Mobile Order / ภาษี & การเงิน), mode
+  picker (Normal/Buffet), 5 mobile-order toggles, VAT/Service Charge,
+  PromptPay number
+
+All charts are pure SVG (no external deps), responsive, with formatted
+฿k labels.
+
 ## Coming in next parts
 
-- Part 3 — Owner app (dashboard, menu/table/package management, expenses, P&L)
 - Part 4 — Laravel backend (migrations, controllers, API)
-- Part 5 — Pusher real-time + GBPrimePay integration
+- Part 5 — Pusher real-time + GBPrimePay integration + Buffet mode

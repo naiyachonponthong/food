@@ -7,6 +7,7 @@
     "dev": "pnpm --filter customer dev",
     "dev:customer": "pnpm --filter customer dev",
     "dev:pos": "pnpm --filter pos dev",
+    "dev:owner": "pnpm --filter owner dev",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint"
   },
