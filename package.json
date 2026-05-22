@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "pnpm --filter customer dev",
     "dev:customer": "pnpm --filter customer dev",
+    "dev:pos": "pnpm --filter pos dev",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint"
   },
