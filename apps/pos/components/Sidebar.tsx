@@ -9,6 +9,7 @@ import {
   CreditCard,
   Settings,
   Utensils,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RESTAURANT_NAME } from "@/lib/mock-data";
@@ -74,6 +75,13 @@ export function Sidebar() {
             </div>
             <div className="text-xs text-ink-400">พนักงาน</div>
           </div>
+          <Link
+            href="/login"
+            aria-label="ออกจากระบบ"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-ink-400 hover:bg-cream-200 hover:text-ink-600"
+          >
+            <LogOut className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </aside>

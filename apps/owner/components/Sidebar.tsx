@@ -11,6 +11,7 @@ import {
   BarChart3,
   Settings,
   Sparkles,
+  Package,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { restaurant } from "@/lib/mock-data";
@@ -19,6 +20,7 @@ const NAV = [
   { href: "/dashboard", label: "แดชบอร์ด", icon: LayoutDashboard },
   { href: "/menus", label: "เมนู", icon: UtensilsCrossed },
   { href: "/categories", label: "หมวดหมู่", icon: FolderTree },
+  { href: "/packages", label: "บุฟเฟ่ต์", icon: Package },
   { href: "/tables", label: "โต๊ะ & QR", icon: Grid3x3 },
   { href: "/expenses", label: "ค่าใช้จ่าย", icon: Wallet },
   { href: "/reports", label: "รายงาน P&L", icon: BarChart3 },

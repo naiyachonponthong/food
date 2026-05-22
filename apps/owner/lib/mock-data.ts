@@ -63,6 +63,29 @@ export type ExpenseCategory = {
   icon: string;
 };
 
+// --- Buffet Package types ---
+export type Package = {
+  id: string;
+  name: string;
+  description: string;
+  priceAdult: number;
+  priceChild: number;
+  childAgeMin?: number;
+  childAgeMax?: number;
+  durationMinutes: number;
+  lastOrderBefore: number;
+  extensionPrice: number;
+  extensionMinutes: number;
+  isActive: boolean;
+  // menu ids included for free (refillable)
+  packageMenuIds: string[];
+  // addon: { menuId, addonPrice }
+  addons: { menuId: string; price: number }[];
+  // sales aggregate this month
+  ordersThisMonth: number;
+  revenueThisMonth: number;
+};
+
 export type Expense = {
   id: string;
   categoryId: string;
@@ -286,3 +309,69 @@ export const todaysOrders = monthlySalesByDay[monthlySalesByDay.length - 1]?.ord
 // "Active tables" / "pending orders" — show static realistic numbers
 export const activeTablesNow = 6;
 export const pendingOrdersNow = 4;
+
+// --- Buffet Packages ---
+export const packages: Package[] = [
+  {
+    id: "pkg_premium",
+    name: "Premium Buffet",
+    description:
+      "บุฟเฟ่ต์ชาบูพรีเมียม วัตถุดิบนำเข้า เนื้อโกเบ A5 + กุ้งแม่น้ำ + อาหารทะเลสด",
+    priceAdult: 399,
+    priceChild: 199.5,
+    childAgeMin: 6,
+    childAgeMax: 12,
+    durationMinutes: 120,
+    lastOrderBefore: 15,
+    extensionPrice: 100,
+    extensionMinutes: 30,
+    isActive: true,
+    packageMenuIds: ["m_pad_pak", "m_water", "m_thai_tea", "m_gaeng_keaw"],
+    addons: [
+      { menuId: "m_pad_thai", price: 49 },
+      { menuId: "m_tom_yum", price: 89 },
+    ],
+    ordersThisMonth: 86,
+    revenueThisMonth: 86 * 399 + 86 * 199.5,
+  },
+  {
+    id: "pkg_standard",
+    name: "Standard Buffet",
+    description: "บุฟเฟ่ต์ชาบูสุดคุ้ม เนื้อหมูพรีเมียม + ผักสด + เครื่องดื่ม",
+    priceAdult: 299,
+    priceChild: 149.5,
+    childAgeMin: 6,
+    childAgeMax: 12,
+    durationMinutes: 90,
+    lastOrderBefore: 10,
+    extensionPrice: 75,
+    extensionMinutes: 30,
+    isActive: true,
+    packageMenuIds: ["m_pad_pak", "m_water", "m_gaeng_keaw"],
+    addons: [{ menuId: "m_pad_thai", price: 39 }],
+    ordersThisMonth: 142,
+    revenueThisMonth: 142 * 299 + 60 * 149.5,
+  },
+  {
+    id: "pkg_kids",
+    name: "Kids Set",
+    description: "เซตเด็ก 90 นาที เน้นเมนูเด็ก ไม่เผ็ด",
+    priceAdult: 159,
+    priceChild: 99,
+    childAgeMin: 3,
+    childAgeMax: 12,
+    durationMinutes: 90,
+    lastOrderBefore: 10,
+    extensionPrice: 0,
+    extensionMinutes: 0,
+    isActive: false,
+    packageMenuIds: ["m_water", "m_thai_tea"],
+    addons: [],
+    ordersThisMonth: 0,
+    revenueThisMonth: 0,
+  },
+];
+
+export function getMenuById(id: string): MenuItem | undefined {
+  return menus.find((m) => m.id === id);
+}
