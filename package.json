@@ -1,0 +1,16 @@
+{
+  "name": "mobile-order",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Restaurant Mobile Order system — Customer PWA, POS, Owner Dashboard",
+  "scripts": {
+    "dev": "pnpm --filter customer dev",
+    "dev:customer": "pnpm --filter customer dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=20"
+  }
+}
