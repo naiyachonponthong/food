@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Receipt, Globe2, ChevronDown } from "lucide-react";
+import { Bell, Receipt, Globe2, ChevronDown, Languages } from "lucide-react";
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { CallStaffSheet } from "./CallStaffSheet";
@@ -49,9 +49,12 @@ export function SessionHeader({
             <button
               aria-label="เปลี่ยนภาษา"
               onClick={() => setLang(lang === "th" ? "en" : "th")}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-soft border border-white"
+              className="flex h-10 items-center gap-1 rounded-full bg-white/90 px-2.5 shadow-soft border border-white"
             >
-              <span className="text-base">{lang === "th" ? "🇹🇭" : "🇬🇧"}</span>
+              <Languages className="h-4 w-4 text-ink-700" strokeWidth={2} />
+              <span className="text-[10px] font-bold uppercase text-ink-700">
+                {lang}
+              </span>
             </button>
             <button
               aria-label="เรียกพนักงาน"

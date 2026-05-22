@@ -85,7 +85,7 @@ export const restaurant: Restaurant = {
   vatRate: 7,
   hasVat: true,
   promptpayNumber: "0812345678",
-  themeColor: "#F2542D",
+  themeColor: "#3B82F6",
   mode: "normal",
   allowCallStaff: true,
   allowSelfCheckout: true,
@@ -94,15 +94,15 @@ export const restaurant: Restaurant = {
   slipVerifyEnabled: true,
 };
 
-// --- Categories ---
+// --- Categories (icon = semantic key resolved via Icons.tsx) ---
 export const categories: MenuCategory[] = [
-  { id: "rice", name: "ข้าวกับข้าว", nameEn: "Rice Dishes", icon: "🍚", isActive: true, sortOrder: 1, itemCount: 3 },
-  { id: "noodle", name: "เส้น", nameEn: "Noodles", icon: "🍜", isActive: true, sortOrder: 2, itemCount: 3 },
-  { id: "stir-fry", name: "ผัด ๆ", nameEn: "Stir Fried", icon: "🥘", isActive: true, sortOrder: 3, itemCount: 2 },
-  { id: "soup", name: "ต้ม / แกง", nameEn: "Soup & Curry", icon: "🍲", isActive: true, sortOrder: 4, itemCount: 2 },
-  { id: "salad", name: "ยำ / สลัด", nameEn: "Salad", icon: "🥗", isActive: true, sortOrder: 5, itemCount: 2 },
-  { id: "drink", name: "เครื่องดื่ม", nameEn: "Drinks", icon: "🥤", isActive: true, sortOrder: 6, itemCount: 3 },
-  { id: "dessert", name: "ของหวาน", nameEn: "Dessert", icon: "🍰", isActive: true, sortOrder: 7, itemCount: 2 },
+  { id: "rice", name: "ข้าวกับข้าว", nameEn: "Rice Dishes", icon: "rice", isActive: true, sortOrder: 1, itemCount: 3 },
+  { id: "noodle", name: "เส้น", nameEn: "Noodles", icon: "noodle", isActive: true, sortOrder: 2, itemCount: 3 },
+  { id: "stir-fry", name: "ผัด ๆ", nameEn: "Stir Fried", icon: "stir-fry", isActive: true, sortOrder: 3, itemCount: 2 },
+  { id: "soup", name: "ต้ม / แกง", nameEn: "Soup & Curry", icon: "soup", isActive: true, sortOrder: 4, itemCount: 2 },
+  { id: "salad", name: "ยำ / สลัด", nameEn: "Salad", icon: "salad", isActive: true, sortOrder: 5, itemCount: 2 },
+  { id: "drink", name: "เครื่องดื่ม", nameEn: "Drinks", icon: "drink", isActive: true, sortOrder: 6, itemCount: 3 },
+  { id: "dessert", name: "ของหวาน", nameEn: "Dessert", icon: "dessert", isActive: true, sortOrder: 7, itemCount: 2 },
 ];
 
 // --- Menus (17 items, with cost & sold count for P&L) ---
@@ -152,15 +152,15 @@ export const tables: Table[] = [
   ...genZone("VIP", "V", 1, 10).map((t) => ({ ...t, qrType: "dynamic" as const })),
 ];
 
-// --- Expense Categories ---
+// --- Expense Categories (icon = semantic key) ---
 export const expenseCategories: ExpenseCategory[] = [
-  { id: "ec_salary", name: "ค่าแรง", icon: "👷" },
-  { id: "ec_rent", name: "ค่าเช่า", icon: "🏠" },
-  { id: "ec_utility", name: "ค่าน้ำ/ไฟ/แก๊ส", icon: "💡" },
-  { id: "ec_packaging", name: "ค่า Packaging", icon: "📦" },
-  { id: "ec_repair", name: "ค่าซ่อมบำรุง", icon: "🔧" },
-  { id: "ec_marketing", name: "การตลาด", icon: "📢" },
-  { id: "ec_other", name: "อื่นๆ", icon: "📝" },
+  { id: "ec_salary", name: "ค่าแรง", icon: "salary" },
+  { id: "ec_rent", name: "ค่าเช่า", icon: "rent" },
+  { id: "ec_utility", name: "ค่าน้ำ/ไฟ/แก๊ส", icon: "utility" },
+  { id: "ec_packaging", name: "ค่า Packaging", icon: "packaging" },
+  { id: "ec_repair", name: "ค่าซ่อมบำรุง", icon: "repair" },
+  { id: "ec_marketing", name: "การตลาด", icon: "marketing" },
+  { id: "ec_other", name: "อื่นๆ", icon: "other" },
 ];
 
 // --- Expenses (this month) ---

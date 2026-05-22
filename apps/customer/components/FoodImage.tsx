@@ -2,37 +2,18 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { getCategoryById, type MenuItem } from "@/lib/mock-data";
+import { type MenuItem } from "@/lib/mock-data";
+import { menuIcon } from "./Icons";
 
 const categoryGradient: Record<string, string> = {
-  featured: "from-amber-200 via-orange-300 to-rose-400",
-  rice: "from-amber-100 via-orange-200 to-rose-300",
-  noodle: "from-yellow-100 via-amber-200 to-orange-300",
-  "stir-fry": "from-emerald-100 via-lime-200 to-amber-200",
-  soup: "from-rose-200 via-orange-300 to-amber-300",
-  salad: "from-lime-100 via-emerald-200 to-teal-300",
-  drink: "from-sky-100 via-cyan-200 to-blue-300",
-  dessert: "from-pink-100 via-rose-200 to-fuchsia-300",
-};
-
-const menuEmoji: Record<string, string> = {
-  m_pad_kra_pao: "🍳",
-  m_khao_man_kai: "🍗",
-  m_khao_kha_moo: "🍖",
-  m_pad_thai: "🍤",
-  m_ba_mee: "🍜",
-  m_yen_ta_fo: "🥢",
-  m_pad_see_ew: "🥘",
-  m_pad_pak: "🥬",
-  m_tom_yum: "🦐",
-  m_gaeng_keaw: "🥥",
-  m_som_tum: "🌶️",
-  m_larb: "🥗",
-  m_thai_tea: "🧋",
-  m_lime_soda: "🍋",
-  m_water: "💧",
-  m_mango_sticky: "🥭",
-  m_bua_loy: "🍡",
+  featured: "from-blue-400 via-blue-500 to-indigo-600",
+  rice: "from-amber-300 via-amber-400 to-orange-500",
+  noodle: "from-yellow-300 via-amber-400 to-rose-500",
+  "stir-fry": "from-emerald-300 via-teal-400 to-cyan-500",
+  soup: "from-rose-300 via-pink-400 to-fuchsia-500",
+  salad: "from-lime-300 via-emerald-400 to-teal-500",
+  drink: "from-sky-300 via-cyan-400 to-blue-500",
+  dessert: "from-pink-300 via-rose-400 to-purple-500",
 };
 
 export function FoodImage({
@@ -47,20 +28,12 @@ export function FoodImage({
   rounded?: string;
 }) {
   const [failed, setFailed] = useState(false);
-  const cat = getCategoryById(menu.categoryId);
-  const grad = categoryGradient[menu.categoryId] || "from-cream-200 to-cream-300";
-  const emoji = menuEmoji[menu.id] || cat?.icon || "🍽️";
+  const grad = categoryGradient[menu.categoryId] || "from-slate-300 to-slate-400";
+  const Icon = menuIcon(menu.id);
 
-  const emojiSize =
-    size === "xl"
-      ? "text-[140px]"
-      : size === "lg"
-        ? "text-[88px]"
-        : size === "md"
-          ? "text-5xl"
-          : "text-3xl";
+  const iconSize =
+    size === "xl" ? 96 : size === "lg" ? 64 : size === "md" ? 36 : 22;
 
-  // Try real image first; fall back to gradient placeholder
   if (menu.image && !failed) {
     return (
       <div
@@ -98,7 +71,7 @@ export function FoodImage({
 
       {/* Subtle dot pattern */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-30"
+        className="pointer-events-none absolute inset-0 opacity-25"
         style={{
           backgroundImage:
             "radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)",
@@ -107,12 +80,12 @@ export function FoodImage({
       />
 
       <div className="relative flex h-full w-full items-center justify-center">
-        <span
-          className={cn(emojiSize, "drop-shadow-sm")}
-          style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.15))" }}
-        >
-          {emoji}
-        </span>
+        <Icon
+          size={iconSize}
+          strokeWidth={1.5}
+          className="text-white drop-shadow"
+          style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.18))" }}
+        />
       </div>
     </div>
   );

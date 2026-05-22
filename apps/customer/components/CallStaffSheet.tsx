@@ -1,12 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { Check } from "lucide-react";
+import {
+  Check,
+  Utensils,
+  Soup,
+  GlassWater,
+  Sparkles,
+  MessageSquare,
+  type LucideIcon,
+} from "lucide-react";
 import { Sheet } from "./Sheet";
 import { Toast } from "./Toast";
 import { callStaffOptions } from "@/lib/mock-data";
 import { useCartStore } from "@/lib/cart-store";
 import { cn } from "@/lib/utils";
+
+const ICONS: Record<string, { icon: LucideIcon; tone: string }> = {
+  utensils: { icon: Utensils, tone: "from-brand-400 to-brand-600" },
+  spice: { icon: Soup, tone: "from-amber-400 to-orange-600" },
+  water: { icon: GlassWater, tone: "from-cyan-400 to-sky-600" },
+  clean: { icon: Sparkles, tone: "from-emerald-400 to-teal-600" },
+  other: { icon: MessageSquare, tone: "from-violet-400 to-purple-600" },
+};
 
 export function CallStaffSheet({
   open,
@@ -64,6 +80,8 @@ export function CallStaffSheet({
         <div className="grid grid-cols-2 gap-3 pt-2">
           {callStaffOptions.map((opt) => {
             const isActive = selected === opt.id;
+            const cfg = ICONS[opt.icon] ?? ICONS.other;
+            const Icon = cfg.icon;
             return (
               <button
                 key={opt.id}
@@ -80,7 +98,14 @@ export function CallStaffSheet({
                     <Check className="h-4 w-4" strokeWidth={3} />
                   </div>
                 )}
-                <div className="text-4xl">{opt.icon}</div>
+                <div
+                  className={cn(
+                    "flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br shadow-soft",
+                    cfg.tone,
+                  )}
+                >
+                  <Icon className="h-7 w-7 text-white" strokeWidth={1.75} />
+                </div>
                 <div className="font-semibold text-ink-800">{opt.label}</div>
                 <div className="text-xs text-ink-400">{opt.description}</div>
               </button>

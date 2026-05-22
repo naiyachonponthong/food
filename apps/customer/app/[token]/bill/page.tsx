@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, AlertTriangle, QrCode, Banknote, CreditCard, Upload } from "lucide-react";
+import { ArrowLeft, AlertTriangle, QrCode, Banknote, CreditCard, Upload, Info } from "lucide-react";
 import { useState, useMemo } from "react";
 import { Sheet } from "@/components/Sheet";
 import { useCartStore, calcLineSubtotal } from "@/lib/cart-store";
@@ -210,7 +210,9 @@ export default function BillPage() {
         }
       >
         <div className="rounded-2xl bg-brand-50 p-4 text-center text-sm text-brand-800">
-          <div className="mb-1.5 text-2xl">📢</div>
+          <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-500 text-white">
+            <Info className="h-5 w-5" strokeWidth={2} />
+          </div>
           <span className="font-semibold">โปรดทราบ</span>
           <div className="mt-1 text-xs">
             หากเรียกเช็คบิลแล้ว คุณจะไม่สามารถสั่งอาหารต่อได้

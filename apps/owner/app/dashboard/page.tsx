@@ -206,7 +206,7 @@ export default function DashboardPage() {
                   <div
                     key={o}
                     className="h-3 w-3 rounded-sm"
-                    style={{ background: `rgba(242,84,45,${o})` }}
+                    style={{ background: `rgba(59,130,246,${o})` }}
                   />
                 ))}
               </div>

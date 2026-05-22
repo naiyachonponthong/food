@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { categories } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import { categoryIcon } from "./Icons";
 
 export function CategoryTabs({
   active,
@@ -27,6 +28,7 @@ export function CategoryTabs({
     >
       {categories.map((cat) => {
         const isActive = active === cat.id;
+        const Icon = categoryIcon(cat.id);
         return (
           <button
             key={cat.id}
@@ -39,7 +41,7 @@ export function CategoryTabs({
                 : "border-cream-300 bg-white text-ink-600 hover:border-brand-300",
             )}
           >
-            <span>{cat.icon}</span>
+            <Icon className="h-4 w-4" strokeWidth={2} />
             <span>{cat.name}</span>
           </button>
         );

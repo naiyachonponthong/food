@@ -71,19 +71,19 @@ export const restaurant: Restaurant = {
   serviceCharge: 10,
   vatRate: 7,
   hasVat: true,
-  themeColor: "#F2542D",
+  themeColor: "#3B82F6",
 };
 
-// --- Categories ---
+// --- Categories (icon resolved via Icons.tsx) ---
 export const categories: MenuCategory[] = [
-  { id: "featured", name: "เมนูแนะนำ", nameEn: "Featured", icon: "✨" },
-  { id: "rice", name: "ข้าวกับข้าว", nameEn: "Rice Dishes", icon: "🍚" },
-  { id: "noodle", name: "เส้น", nameEn: "Noodles", icon: "🍜" },
-  { id: "stir-fry", name: "ผัด ๆ", nameEn: "Stir Fried", icon: "🥘" },
-  { id: "soup", name: "ต้ม / แกง", nameEn: "Soup & Curry", icon: "🍲" },
-  { id: "salad", name: "ยำ / สลัด", nameEn: "Salad", icon: "🥗" },
-  { id: "drink", name: "เครื่องดื่ม", nameEn: "Drinks", icon: "🥤" },
-  { id: "dessert", name: "ของหวาน", nameEn: "Dessert", icon: "🍰" },
+  { id: "featured", name: "เมนูแนะนำ", nameEn: "Featured", icon: "featured" },
+  { id: "rice", name: "ข้าวกับข้าว", nameEn: "Rice Dishes", icon: "rice" },
+  { id: "noodle", name: "เส้น", nameEn: "Noodles", icon: "noodle" },
+  { id: "stir-fry", name: "ผัด ๆ", nameEn: "Stir Fried", icon: "stir-fry" },
+  { id: "soup", name: "ต้ม / แกง", nameEn: "Soup & Curry", icon: "soup" },
+  { id: "salad", name: "ยำ / สลัด", nameEn: "Salad", icon: "salad" },
+  { id: "drink", name: "เครื่องดื่ม", nameEn: "Drinks", icon: "drink" },
+  { id: "dessert", name: "ของหวาน", nameEn: "Dessert", icon: "dessert" },
 ];
 
 // --- Common Options ---
@@ -96,7 +96,7 @@ const spicyOption: MenuOption = {
     { id: "spicy_0", name: "ไม่เผ็ด", priceAddon: 0 },
     { id: "spicy_1", name: "เผ็ดน้อย", priceAddon: 0, isDefault: true },
     { id: "spicy_2", name: "เผ็ดกลาง", priceAddon: 0 },
-    { id: "spicy_3", name: "เผ็ดมาก 🌶️", priceAddon: 0 },
+    { id: "spicy_3", name: "เผ็ดมาก", priceAddon: 0 },
   ],
 };
 
@@ -379,13 +379,13 @@ export const session: Session = {
   startedAt: new Date(),
 };
 
-// --- Call Staff Options ---
+// --- Call Staff Options (icon name = Lucide id, resolved in component) ---
 export const callStaffOptions = [
-  { id: "utensils", label: "ขออุปกรณ์", icon: "🍴", description: "ช้อน, ส้อม, ตะเกียบ" },
-  { id: "seasoning", label: "ขอเครื่องปรุง", icon: "🧂", description: "น้ำปลา, พริก, น้ำส้ม" },
-  { id: "water", label: "เติมเครื่องดื่ม", icon: "💧", description: "น้ำเปล่า, น้ำชา" },
-  { id: "clean", label: "ทำความสะอาดโต๊ะ", icon: "🧹", description: "เก็บจาน, เช็ดโต๊ะ" },
-  { id: "other", label: "อื่น ๆ", icon: "💬", description: "พิมพ์ข้อความบอกได้" },
+  { id: "utensils", label: "ขออุปกรณ์", icon: "utensils", description: "ช้อน, ส้อม, ตะเกียบ" },
+  { id: "seasoning", label: "ขอเครื่องปรุง", icon: "spice", description: "น้ำปลา, พริก, น้ำส้ม" },
+  { id: "water", label: "เติมเครื่องดื่ม", icon: "water", description: "น้ำเปล่า, น้ำชา" },
+  { id: "clean", label: "ทำความสะอาดโต๊ะ", icon: "clean", description: "เก็บจาน, เช็ดโต๊ะ" },
+  { id: "other", label: "อื่น ๆ", icon: "other", description: "พิมพ์ข้อความบอกได้" },
 ];
 
 // --- Helpers ---

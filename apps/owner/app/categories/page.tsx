@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Plus, GripVertical, Edit3, ToggleLeft, ToggleRight } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
 import { categories as initial } from "@/lib/mock-data";
+import { CategoryIcon } from "@/components/Icons";
 import { cn } from "@/lib/utils";
 
 export default function CategoriesPage() {
@@ -42,9 +43,7 @@ export default function CategoriesPage() {
                   >
                     <GripVertical className="h-5 w-5" />
                   </button>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cream-100 text-2xl">
-                    {c.icon}
-                  </div>
+                  <CategoryIcon id={c.id} size="md" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-baseline gap-2">
                       <span className="font-semibold text-ink-800">

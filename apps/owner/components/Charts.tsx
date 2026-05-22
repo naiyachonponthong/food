@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export function LineChart({
   data,
   height = 200,
-  color = "#F2542D",
+  color = "#3B82F6",
   fillOpacity = 0.15,
   yFormat = (n: number) => n.toLocaleString(),
   xLabel = (d: number) => String(d),
@@ -69,7 +69,7 @@ export function LineChart({
             x2={w - pad.right}
             y1={yScale(v)}
             y2={yScale(v)}
-            stroke="#EBE0C8"
+            stroke="#E2E8F0"
             strokeWidth={1}
             strokeDasharray={i === 0 ? "0" : "2 4"}
           />
@@ -84,7 +84,7 @@ export function LineChart({
           textAnchor="end"
           dominantBaseline="middle"
           fontSize="11"
-          fill="#A39884"
+          fill="#94A3B8"
         >
           {yFormat(v)}
         </text>
@@ -99,7 +99,7 @@ export function LineChart({
             y={h - 8}
             textAnchor="middle"
             fontSize="11"
-            fill="#A39884"
+            fill="#94A3B8"
           >
             {xLabel(d.x)}
           </text>
@@ -130,7 +130,7 @@ export function LineChart({
 export function BarChart({
   data,
   height = 200,
-  color = "#F2542D",
+  color = "#3B82F6",
   yFormat = (n: number) => n.toLocaleString(),
 }: {
   data: { label: string; value: number }[];
@@ -158,7 +158,7 @@ export function BarChart({
           x2={w - pad.right}
           y1={pad.top + innerH * (1 - p)}
           y2={pad.top + innerH * (1 - p)}
-          stroke="#EBE0C8"
+          stroke="#E2E8F0"
           strokeWidth={1}
           strokeDasharray={p === 0 ? "0" : "2 4"}
         />
@@ -171,7 +171,7 @@ export function BarChart({
           textAnchor="end"
           dominantBaseline="middle"
           fontSize="11"
-          fill="#A39884"
+          fill="#94A3B8"
         >
           {yFormat(Math.round(max * p))}
         </text>
@@ -196,7 +196,7 @@ export function BarChart({
               y={h - 22}
               textAnchor="middle"
               fontSize="10"
-              fill="#7A7060"
+              fill="#64748B"
             >
               {d.label}
             </text>
@@ -210,7 +210,7 @@ export function BarChart({
 // --- Horizontal Bar (for top menus) ---
 export function HorizontalBars({
   data,
-  color = "#F2542D",
+  color = "#3B82F6",
 }: {
   data: { label: string; value: number; sub?: string }[];
   color?: string;
@@ -265,7 +265,7 @@ export function HourlyHeatmap({
               className="aspect-square w-full rounded"
               title={`${d.hour}:00 — ฿${d.revenue.toLocaleString()}`}
               style={{
-                background: `rgba(242, 84, 45, ${opacity})`,
+                background: `rgba(59, 130, 246, ${opacity})`,
               }}
             />
             <div

@@ -8,6 +8,7 @@ import {
   expenses as initial,
   expensesByCategory,
 } from "@/lib/mock-data";
+import { ExpenseIcon } from "@/components/Icons";
 import { cn, formatDate, formatPrice } from "@/lib/utils";
 
 export default function ExpensesPage() {
@@ -55,9 +56,9 @@ export default function ExpensesPage() {
                 const pct = (c.amount / total) * 100;
                 return (
                   <div key={c.categoryId}>
-                    <div className="mb-1 flex items-baseline justify-between">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-base">{c.icon}</span>
+                    <div className="mb-1 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <ExpenseIcon id={c.icon} size="sm" />
                         <span className="text-sm font-medium text-ink-800">
                           {c.name}
                         </span>
@@ -107,9 +108,7 @@ export default function ExpensesPage() {
                       key={e.id}
                       className="grid grid-cols-[40px_1fr_140px_120px] items-center gap-4 px-5 py-3 hover:bg-cream-50"
                     >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cream-100 text-lg">
-                        {cat?.icon}
-                      </div>
+                      <ExpenseIcon id={cat?.icon ?? "other"} size="md" />
                       <div className="min-w-0">
                         <div className="flex items-baseline gap-2">
                           <span className="text-sm font-semibold text-ink-800">

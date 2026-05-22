@@ -1,5 +1,8 @@
 # Mobile Order — Plearn Kitchen
 
+**v2 redesign (2026):** Blue / Indigo / Violet palette with cool slate
+backgrounds, gradient icon containers (no emojis — Lucide icons throughout).
+
 Restaurant Mobile Order system. See `SYSTEM_DESIGN.md` for full architecture.
 
 > Built in parts. **Part 1** — Customer PWA. **Part 2** — POS + Kitchen Display.

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Flame, Check, Plus } from "lucide-react";
+import { ArrowLeft, Flame, Check, Plus, Tag, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { QuantityStepper } from "@/components/QuantityStepper";
 import { FoodImage } from "@/components/FoodImage";
@@ -127,14 +127,14 @@ export default function MenuDetailPage() {
 
           <div className="mt-4 flex items-center gap-4 text-sm text-ink-400">
             <div className="flex items-center gap-1.5">
-              <span className="text-base">💰</span>
+              <Tag className="h-4 w-4" strokeWidth={2} />
               <span className="font-semibold text-ink-700 tabular">
                 {formatPrice(menu.price)}
               </span>
             </div>
             {menu.calories && (
               <div className="flex items-center gap-1.5">
-                <span className="text-base">🔥</span>
+                <Zap className="h-4 w-4" strokeWidth={2} />
                 <span>{menu.calories} kcal</span>
               </div>
             )}

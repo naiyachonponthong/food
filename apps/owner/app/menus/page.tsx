@@ -16,6 +16,7 @@ import {
   menus as initialMenus,
   type MenuItem,
 } from "@/lib/mock-data";
+import { CategoryIcon } from "@/components/Icons";
 import { cn, formatPrice } from "@/lib/utils";
 
 export default function MenusPage() {
@@ -82,7 +83,7 @@ export default function MenusPage() {
           {categories.map((c) => (
             <CategoryChip
               key={c.id}
-              icon={c.icon}
+              iconId={c.id}
               label={c.name}
               count={menus.filter((m) => m.categoryId === c.id).length}
               active={activeCat === c.id}
@@ -108,9 +109,7 @@ export default function MenusPage() {
                 className="grid grid-cols-[1fr_120px_100px_100px_100px_50px] items-center gap-4 px-5 py-3 transition-all hover:bg-cream-50"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-100 to-brand-200 text-lg">
-                    {categories.find((c) => c.id === m.categoryId)?.icon}
-                  </div>
+                  <CategoryIcon id={m.categoryId} size="md" />
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm font-semibold text-ink-800">
@@ -185,13 +184,13 @@ export default function MenusPage() {
 }
 
 function CategoryChip({
-  icon,
+  iconId,
   label,
   count,
   active,
   onClick,
 }: {
-  icon?: string;
+  iconId?: string;
   label: string;
   count: number;
   active: boolean;
@@ -207,7 +206,7 @@ function CategoryChip({
           : "bg-white text-ink-600 border border-cream-300 hover:border-cream-400",
       )}
     >
-      {icon && <span>{icon}</span>}
+      {iconId && <CategoryIcon id={iconId} size="sm" />}
       <span>{label}</span>
       <span
         className={cn(

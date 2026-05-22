@@ -152,7 +152,7 @@ export default function ReportsPage() {
               {expensesByCategory().map((e) => (
                 <PLLine
                   key={e.categoryId}
-                  label={`${e.icon} ${e.name}`}
+                  label={e.name}
                   value={-e.amount}
                   small
                 />

@@ -8,6 +8,7 @@ import { MenuCard } from "@/components/MenuCard";
 import { CartBar } from "@/components/CartBar";
 import { categories, getMenusByCategory, menus, restaurant } from "@/lib/mock-data";
 import { RestaurantCover, RestaurantLogo } from "@/components/BrandImage";
+import { categoryIcon } from "@/components/Icons";
 
 export default function MenuBrowsePage() {
   const [activeCat, setActiveCat] = useState("featured");
@@ -157,9 +158,10 @@ export default function MenuBrowsePage() {
               }}
             >
               <SectionHeader
-                icon="✨"
+                iconId="featured"
                 title="เมนูแนะนำ"
                 subtitle="ขายดีจากครัวของเรา"
+                tone="from-brand-400 to-accent-600"
               />
               <div className="grid grid-cols-2 gap-3">
                 {getMenusByCategory("featured").map((m) => (
@@ -181,7 +183,7 @@ export default function MenuBrowsePage() {
                     }}
                   >
                     <SectionHeader
-                      icon={cat.icon}
+                      iconId={cat.id}
                       title={cat.name}
                       subtitle={cat.nameEn}
                     />
@@ -203,26 +205,31 @@ export default function MenuBrowsePage() {
 }
 
 function SectionHeader({
-  icon,
+  iconId,
   title,
   subtitle,
+  tone = "from-slate-400 to-slate-600",
 }: {
-  icon: string;
+  iconId: string;
   title: string;
   subtitle?: string;
+  tone?: string;
 }) {
+  const Icon = categoryIcon(iconId);
   return (
     <div className="mb-4 flex items-end justify-between">
-      <div>
-        <div className="flex items-center gap-2">
-          <span className="text-xl">{icon}</span>
-          <h2 className="font-display text-xl font-bold text-ink-800">
+      <div className="flex items-center gap-3">
+        <div
+          className={`flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br ${tone} shadow-soft`}
+        >
+          <Icon className="h-5 w-5 text-white" strokeWidth={2} />
+        </div>
+        <div>
+          <h2 className="font-display text-xl font-bold leading-tight text-ink-800">
             {title}
           </h2>
+          {subtitle && <p className="text-xs text-ink-400">{subtitle}</p>}
         </div>
-        {subtitle && (
-          <p className="ml-7 text-xs text-ink-400">{subtitle}</p>
-        )}
       </div>
     </div>
   );
