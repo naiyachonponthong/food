@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutGrid,
   ClipboardList,
@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RESTAURANT_NAME } from "@/lib/mock-data";
+import { useAuthStore } from "@/lib/auth-store";
 
 const NAV = [
   { href: "/tables", label: "โต๊ะ", icon: LayoutGrid },
@@ -24,6 +25,15 @@ const NAV = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+
+  const initial = (user?.name ?? "?")[0]?.toUpperCase();
+  const handleLogout = async () => {
+    await logout();
+    router.push("/login");
+  };
   return (
     <aside className="hidden md:flex w-60 flex-col border-r border-cream-300 bg-white">
       <div className="flex items-center gap-3 px-5 py-5 border-b border-cream-200">
@@ -67,21 +77,23 @@ export function Sidebar() {
       <div className="border-t border-cream-200 p-3">
         <div className="flex items-center gap-3 rounded-xl bg-cream-100 px-3 py-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-herb-100 text-herb-700 font-semibold">
-            N
+            {initial}
           </div>
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-semibold text-ink-800">
-              Nawawat
+              {user?.name ?? "—"}
             </div>
-            <div className="text-xs text-ink-400">พนักงาน</div>
+            <div className="text-xs text-ink-400 capitalize">
+              {user?.role ?? "พนักงาน"}
+            </div>
           </div>
-          <Link
-            href="/login"
+          <button
+            onClick={handleLogout}
             aria-label="ออกจากระบบ"
             className="flex h-8 w-8 items-center justify-center rounded-lg text-ink-400 hover:bg-cream-200 hover:text-ink-600"
           >
             <LogOut className="h-4 w-4" />
-          </Link>
+          </button>
         </div>
       </div>
     </aside>

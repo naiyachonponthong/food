@@ -10,10 +10,13 @@ import {
   Sparkles,
   Lock,
   ChevronDown,
+  AlertCircle,
+  Loader2,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RESTAURANT_NAME } from "@/lib/mock-data";
+import { useAuthStore } from "@/lib/auth-store";
 
 type Role = {
   id: "admin" | "cashier" | "kitchen";
@@ -22,6 +25,7 @@ type Role = {
   icon: LucideIcon;
   tone: string;
   redirect: string;
+  defaultEmail: string;
 };
 
 const ROLES: Role[] = [
@@ -32,6 +36,7 @@ const ROLES: Role[] = [
     icon: ShieldCheck,
     tone: "from-blue-500 to-indigo-600",
     redirect: "/tables",
+    defaultEmail: "owner@plearn.test",
   },
   {
     id: "cashier",
@@ -40,6 +45,7 @@ const ROLES: Role[] = [
     icon: Wallet,
     tone: "from-emerald-500 to-teal-600",
     redirect: "/payments",
+    defaultEmail: "staff@plearn.test",
   },
   {
     id: "kitchen",
@@ -48,21 +54,30 @@ const ROLES: Role[] = [
     icon: ChefHat,
     tone: "from-violet-500 to-fuchsia-600",
     redirect: "/kitchen",
+    defaultEmail: "kitchen@plearn.test",
   },
 ];
 
 export default function LoginPage() {
   const router = useRouter();
   const [selected, setSelected] = useState<Role | null>(null);
+  const [password, setPassword] = useState("password");
+  const login = useAuthStore((s) => s.login);
+  const status = useAuthStore((s) => s.status);
+  const errorMessage = useAuthStore((s) => s.errorMessage);
 
-  const proceed = () => {
+  const proceed = async () => {
     if (!selected) return;
-    router.push(selected.redirect);
+    try {
+      await login(selected.defaultEmail, password);
+      router.push(selected.redirect);
+    } catch {
+      // store already set errorMessage
+    }
   };
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-cream-100 p-6">
-      {/* Ambient backdrop */}
       <div className="pointer-events-none absolute inset-0 -z-0">
         <div className="absolute -left-32 -top-32 h-[420px] w-[420px] rounded-full bg-brand-300/40 blur-3xl" />
         <div className="absolute -bottom-40 -right-20 h-[480px] w-[480px] rounded-full bg-accent-300/40 blur-3xl" />
@@ -178,18 +193,54 @@ export default function LoginPage() {
             })}
           </div>
 
+          {/* Password input */}
+          {selected && (
+            <div className="mt-4 animate-fade-in-up">
+              <label className="block text-[11px] font-semibold text-ink-500 mb-1">
+                รหัสผ่าน
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && proceed()}
+                placeholder="••••••••"
+                className="w-full rounded-xl border-2 border-cream-200 bg-white px-3.5 py-2.5 text-sm font-mono outline-none focus:border-brand-400"
+              />
+              <p className="mt-1 text-[10px] text-ink-400">
+                Demo: ใช้ <span className="font-mono">password</span> สำหรับทุกบัญชี
+              </p>
+            </div>
+          )}
+
+          {errorMessage && (
+            <div className="mt-3 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+              <AlertCircle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
+              <span>{errorMessage}</span>
+            </div>
+          )}
+
           <button
             onClick={proceed}
-            disabled={!selected}
+            disabled={!selected || status === "loading"}
             className={cn(
               "mt-5 flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-semibold transition-all",
-              selected
-                ? "bg-brand-500 text-white shadow-pop hover:bg-brand-600"
-                : "bg-cream-200 text-ink-400",
+              !selected || status === "loading"
+                ? "bg-cream-200 text-ink-400"
+                : "bg-blue-600 text-white shadow-pop hover:bg-blue-700",
             )}
           >
-            <Lock className="h-4 w-4" />
-            เข้าสู่ระบบ{selected ? ` · ${selected.label}` : ""}
+            {status === "loading" ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                กำลังเข้าสู่ระบบ...
+              </>
+            ) : (
+              <>
+                <Lock className="h-4 w-4" />
+                เข้าสู่ระบบ{selected ? ` · ${selected.label}` : ""}
+              </>
+            )}
           </button>
 
           <div className="mt-4 flex items-center justify-center gap-2 text-[10px] text-ink-400">
