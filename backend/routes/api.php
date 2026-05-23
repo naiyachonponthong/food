@@ -13,6 +13,7 @@ use App\Http\Controllers\Public\CustomerController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TableController;
+use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -21,6 +22,9 @@ Route::prefix('v1')->group(function () {
 
     // Auth (no token needed for login)
     Route::post('/auth/login', [AuthController::class, 'login']);
+
+    // Receipt — printable HTML for thermal printer (browser-print)
+    Route::get('/payments/{id}/receipt', [\App\Http\Controllers\ReceiptController::class, 'show']);
 
     // Public customer API — token-gated per session, no auth
     Route::prefix('public/{token}')->group(function () {
@@ -45,6 +49,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/restaurant', [RestaurantController::class, 'show']);
         Route::put('/restaurant', [RestaurantController::class, 'update']);
         Route::put('/restaurant/settings', [RestaurantController::class, 'updateSettings']);
+
+        // File upload (image)
+        Route::post('/uploads/image', [UploadController::class, 'image']);
 
         // Menu categories
         Route::get('/categories', [MenuCategoryController::class, 'index']);
