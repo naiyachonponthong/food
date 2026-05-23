@@ -16,7 +16,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { usePosStore } from "@/lib/pos-store";
 import { cn, formatDuration, formatPrice, formatTime } from "@/lib/utils";
-import type { OrderItemStatus } from "@/lib/mock-data";
+import { orderDisplayCode, tableDisplayCode, type OrderItemStatus } from "@/lib/mock-data";
 
 const STATUS_OPTIONS: Array<{
   value: OrderItemStatus;
@@ -91,9 +91,11 @@ export function TableDetailDrawer() {
                   โต๊ะ
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-ink-800 tabular">
-                    {table.name}
+                  <span className="font-mono text-2xl font-bold text-ink-800">
+                    {tableDisplayCode(table.name)}
                   </span>
+                  <span className="text-base text-ink-500">·</span>
+                  <span className="text-sm font-semibold text-ink-700">{table.name}</span>
                   <span className="text-sm text-ink-400">·</span>
                   <span className="text-sm text-ink-500">{table.zone}</span>
                 </div>
@@ -159,7 +161,7 @@ export function TableDetailDrawer() {
                       </div>
                       <button
                         onClick={() => ackCall(session.id)}
-                        className="rounded-xl bg-brand-500 px-3 py-2 text-xs font-semibold text-white"
+                        className="rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white"
                       >
                         รับทราบ
                       </button>
@@ -204,7 +206,7 @@ export function TableDetailDrawer() {
                                 รอบ {order.roundNumber}
                               </span>
                               <span className="font-mono text-xs text-ink-500">
-                                {order.orderNumber}
+                                {orderDisplayCode(order.id, order.placedAt)}
                               </span>
                             </div>
                             <span className="text-[10px] tabular text-ink-400">
@@ -281,7 +283,7 @@ export function TableDetailDrawer() {
                   </button>
                   <button
                     onClick={() => markPaid(session.id)}
-                    className="flex flex-[2] items-center justify-center gap-2 rounded-2xl bg-brand-500 py-3 text-sm font-semibold text-white shadow-pop hover:bg-brand-600"
+                    className="flex flex-[2] items-center justify-center gap-2 rounded-2xl bg-blue-600 py-3 text-sm font-semibold text-white shadow-pop hover:bg-blue-700"
                   >
                     <Receipt className="h-4 w-4" />
                     ชำระเงิน · {formatPrice(session.totalAmount)}
@@ -316,7 +318,7 @@ function EmptyState({
       </p>
       <button
         onClick={onOpen}
-        className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-brand-500 px-5 py-3 text-sm font-semibold text-white shadow-pop hover:bg-brand-600"
+        className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-pop hover:bg-blue-700"
       >
         <Sparkles className="h-4 w-4" />
         เปิดโต๊ะใหม่

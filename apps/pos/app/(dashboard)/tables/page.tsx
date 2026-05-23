@@ -47,7 +47,7 @@ export default function TablesPage() {
         action={
           <button
             onClick={() => setOpenTableModal(true)}
-            className="inline-flex items-center gap-2 rounded-2xl bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-pop hover:bg-brand-600"
+            className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-pop hover:bg-blue-700"
           >
             <Plus className="h-4 w-4" strokeWidth={2.5} />
             เปิดโต๊ะใหม่

@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Clock, ChefHat, Check, Sparkles, AlertCircle } from "lucide-react";
+import { Clock, ChefHat, Check, Sparkles, AlertCircle, Crown } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
+import { orderDisplayCode, tableDisplayCode } from "@/lib/mock-data";
 import { usePosStore } from "@/lib/pos-store";
 import { cn, formatTime } from "@/lib/utils";
 import type { OrderItem, OrderItemStatus } from "@/lib/mock-data";
@@ -89,13 +90,16 @@ function KitchenTicket({
               : "border-cream-200 bg-cream-50",
         )}
       >
-        <div className="flex items-center gap-2">
-          <div className="text-2xl font-bold text-ink-800 tabular">
-            {order.tableName}
+        <div>
+          <div className="flex items-center gap-2">
+            <div className="font-mono text-lg font-bold text-ink-800">
+              {tableDisplayCode(order.tableName)}
+            </div>
+            <span className="rounded-md bg-white px-1.5 py-0.5 text-[10px] font-bold uppercase text-ink-600">
+              รอบ {order.roundNumber}
+            </span>
           </div>
-          <span className="rounded-md bg-white px-1.5 py-0.5 text-[10px] font-bold uppercase text-ink-600">
-            รอบ {order.roundNumber}
-          </span>
+          <div className="text-[10px] text-ink-500">{order.tableName}</div>
         </div>
         <div className="flex flex-col items-end">
           <div
@@ -125,7 +129,7 @@ function KitchenTicket({
 
       <footer className="border-t border-cream-200 bg-cream-50 px-4 py-2.5 text-[11px]">
         <div className="flex items-center justify-between text-ink-500">
-          <span>{order.orderNumber}</span>
+          <span className="font-mono">{orderDisplayCode(order.id, order.placedAt)}</span>
           <span>
             ค้างทำ {pendingItems.length}/{order.items.length} รายการ
           </span>

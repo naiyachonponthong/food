@@ -193,7 +193,7 @@ export function OpenTableDialog() {
                 className={cn(
                   "flex-1 rounded-2xl py-3 text-sm font-semibold text-white",
                   tableId
-                    ? "bg-brand-500 shadow-pop hover:bg-brand-600"
+                    ? "bg-blue-600 shadow-pop hover:bg-blue-700"
                     : "bg-ink-200",
                 )}
               >

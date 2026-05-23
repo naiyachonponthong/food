@@ -13,7 +13,7 @@ import {
 import { useEffect, useRef } from "react";
 import { usePosStore } from "@/lib/pos-store";
 import { formatRelative } from "@/lib/utils";
-import type { Notification } from "@/lib/mock-data";
+import { tableDisplayCode, type Notification } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 const typeMeta: Record<
@@ -122,8 +122,8 @@ export function NotificationsDropdown({
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-baseline gap-2">
-                          <span className="rounded-md bg-cream-200 px-1.5 py-0.5 text-[10px] font-bold text-ink-700">
-                            โต๊ะ {n.tableName}
+                          <span className="rounded-md bg-cream-200 px-1.5 py-0.5 font-mono text-[10px] font-bold text-ink-700">
+                            {tableDisplayCode(n.tableName)}
                           </span>
                           <span className="truncate text-sm font-semibold text-ink-800">
                             {n.title}

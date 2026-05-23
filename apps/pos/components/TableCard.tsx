@@ -1,8 +1,9 @@
 "use client";
 
-import { Bell, Receipt, Users, Clock } from "lucide-react";
+import { Bell, Receipt, Users, Clock, Crown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn, formatDuration, formatPrice } from "@/lib/utils";
+import { tableDisplayCode } from "@/lib/mock-data";
 import type { Session, Table } from "@/lib/pos-store";
 
 const STATUS_STYLES: Record<
@@ -95,6 +96,18 @@ export function TableCard({
         >
           {styles.label}
         </span>
+      </div>
+
+      <div className="mt-0.5 flex items-center gap-1.5 text-[10px]">
+        <span className="font-mono text-ink-400">
+          {tableDisplayCode(table.name)}
+        </span>
+        {session?.isBuffet && (
+          <span className="inline-flex items-center gap-0.5 rounded-md bg-gradient-to-r from-amber-400 to-orange-500 px-1.5 py-0.5 text-[9px] font-bold text-white">
+            <Crown className="h-2 w-2" />
+            BUF
+          </span>
+        )}
       </div>
 
       <div className="mt-1 flex items-center gap-1 text-[11px] text-ink-400">

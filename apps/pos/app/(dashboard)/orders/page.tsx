@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Clock, ChevronRight, Search } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
 import { usePosStore } from "@/lib/pos-store";
+import { orderDisplayCode, tableDisplayCode } from "@/lib/mock-data";
 import { cn, formatPrice, formatTime } from "@/lib/utils";
 
 const STATUS_FILTERS = [
@@ -114,8 +115,11 @@ export default function OrdersPage() {
                   onClick={() => selectTable(o.tableId)}
                   className="grid cursor-pointer grid-cols-[80px_60px_1fr_auto_120px_auto] items-center gap-4 px-5 py-3 transition-all hover:bg-cream-50"
                 >
-                  <div className="text-lg font-bold text-ink-800 tabular">
-                    {o.tableName}
+                  <div>
+                    <div className="font-mono text-sm font-bold text-ink-800 tabular">
+                      {tableDisplayCode(o.tableName)}
+                    </div>
+                    <div className="text-[10px] text-ink-400">{o.tableName}</div>
                   </div>
                   <div className="text-xs font-medium text-ink-500 tabular">
                     #{o.roundNumber}
@@ -127,7 +131,7 @@ export default function OrdersPage() {
                         .join(", ")}
                     </div>
                     <div className="mt-0.5 font-mono text-[10px] text-ink-400">
-                      {o.orderNumber}
+                      {orderDisplayCode(o.id, o.placedAt)}
                     </div>
                   </div>
                   <div className="text-right text-sm font-bold text-ink-800 tabular">
