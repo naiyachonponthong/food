@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Public;
 
+use App\Events\BillRequestEvent;
+use App\Events\CallStaffEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\Notification;
@@ -89,19 +91,22 @@ class CustomerController extends Controller
                 'table_name' => $session->table->name,
             ],
         ]);
+        broadcast(new CallStaffEvent($session, $reason))->toOthers();
         return response()->json(['ok' => true]);
     }
 
-    public function requestBill(string $token): JsonResponse
+    public function requestBill(string $token, OrderCalculatorService $calc): JsonResponse
     {
         $session = $this->session($token);
+        $bill = $calc->calculateBill($session);
         Notification::create([
             'restaurant_id' => $session->restaurant_id,
             'type' => 'bill_request',
             'title' => 'ขอเช็คบิล',
-            'body' => 'โต๊ะ ' . $session->table->name,
-            'data' => ['session_id' => $session->id, 'table_id' => $session->table_id],
+            'body' => 'โต๊ะ ' . $session->table->name . ' · ฿' . number_format($bill['total'], 2),
+            'data' => ['session_id' => $session->id, 'table_id' => $session->table_id, 'total' => $bill['total']],
         ]);
+        broadcast(new BillRequestEvent($session, $bill['total']))->toOthers();
         return response()->json(['ok' => true]);
     }
 

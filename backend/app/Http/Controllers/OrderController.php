@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewOrderEvent;
+use App\Events\OrderStatusChangedEvent;
 use App\Models\Menu;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderItemOption;
@@ -110,6 +113,21 @@ class OrderController extends Controller
         });
 
         $order = $calc->recalculateOrder($order);
+
+        // Persist notification + broadcast
+        Notification::create([
+            'restaurant_id' => $order->restaurant_id,
+            'type' => 'new_order',
+            'title' => 'ออเดอร์ใหม่ (รอบ ' . $order->round_number . ')',
+            'body' => $order->items->count() . ' รายการ · ฿' . number_format((float) $order->total, 2),
+            'data' => [
+                'order_id' => $order->id,
+                'session_id' => $order->session_id,
+                'table_name' => $session->table?->name,
+            ],
+        ]);
+        broadcast(new NewOrderEvent($order))->toOthers();
+
         return response()->json(['order' => $order->load('items.options')], 201);
     }
 
@@ -123,6 +141,7 @@ class OrderController extends Controller
         $update[$request->status . '_at'] = now();
         $order->update($update);
         $order->items()->update(['status' => $request->status]);
+        broadcast(new OrderStatusChangedEvent($order, $request->status))->toOthers();
         return response()->json(['order' => $order->fresh('items')]);
     }
 

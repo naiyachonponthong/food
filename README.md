@@ -134,7 +134,55 @@ End-to-end test passes from staff login → open session → customer
 fetches menus → places order → calls staff → kitchen queue shows
 the order → bill total computes correctly with service charge + VAT.
 
-## Coming next
+## Part 5 — Real-time + Buffet Timer + API client: what's done
 
-- Part 5 — Pusher real-time + GBPrimePay integration + Buffet timer
-  cron + wire the 3 frontend apps to this API (replace mock data).
+- Broadcasting wired into `bootstrap/app.php` via `withBroadcasting()`
+  with channels in `routes/channels.php` (`restaurant.{id}` /
+  `kitchen.{id}` private, `table.{token}` presence).
+- BROADCAST_CONNECTION=log + QUEUE_CONNECTION=sync so every event
+  appears in `storage/logs/laravel.log` immediately — swap to
+  `pusher` + real keys in `.env` for production and Pusher receives
+  the exact same payload.
+- 5 event classes under `App\Events`:
+  - `NewOrderEvent` (broadcast as `new-order` → restaurant + kitchen)
+  - `CallStaffEvent` (`call-staff` → restaurant)
+  - `BillRequestEvent` (`bill-request` → restaurant)
+  - `OrderStatusChangedEvent` (`order-{status}` → restaurant +
+    presence-table)
+  - `TimerEvent` — one class with four `broadcastAs()` variants:
+    `last-order-warning` / `timer-warning` / `timer-expired` /
+    `time-extended`, broadcast on all three channels at once.
+- Controllers wired:
+  - `OrderController::place` and `updateStatus` broadcast their events
+    plus log a `Notification` record for the dropdown.
+  - `Public\CustomerController::callStaff` and `requestBill` broadcast
+    + persist notifications.
+- **Buffet timer cron** — `php artisan buffet:check-timers` polls all
+  active buffet sessions every minute (via `Schedule::command(...)
+  ->everyMinute()` in `routes/console.php`), fires `last-order-warning`
+  when `last_order_at` is past, `timer-warning` when ≤10 min remaining,
+  `timer-expired` when past `expires_at`. Uses the notifications log
+  to deduplicate so the same alert won't fire twice.
+- **Sessions cleanup** — `php artisan sessions:cleanup` (nightly at
+  02:00) expires zombie sessions that ran 2+ hours past their
+  `expires_at` and never closed properly.
+
+API clients in each frontend app:
+- `apps/customer/lib/api.ts` — public token endpoints (restaurant,
+  menus, package, my-orders, place-order, call-staff, bill).
+- `apps/pos/lib/api.ts` — bearer-token auth with localStorage,
+  tables / sessions / orders / kitchen / payments / notifications.
+- `apps/owner/lib/api.ts` — dashboard / menus / categories / tables /
+  expenses / settings.
+
+Set `NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1` (default) to
+point the frontends at the Laravel backend.
+
+End-to-end smoke test:
+```
+# Trigger a customer call-staff → see it broadcast immediately
+curl -X POST http://localhost:8000/api/v1/public/$TOKEN/call-staff \
+  -d '{"reason":"ขอเครื่องปรุง"}'
+tail storage/logs/laravel.log | grep Broadcasting
+# → Broadcasting [call-staff] on channels [private-restaurant.…]
+```
