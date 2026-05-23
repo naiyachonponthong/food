@@ -87,6 +87,83 @@ export type Notification = {
 
 export const STAFF_NAME = "พนักงาน Nawawat";
 export const RESTAURANT_NAME = "ครัวเพลิน";
+export const BRANCH_NAME = "สาขาหลัก";
+
+// FoodStory-style table id (FD22XXX). Convert from internal name.
+export function tableDisplayCode(name: string): string {
+  // A1..A8 → FD22_201..FD22_208 (เรียงตาม index ของตัวอักษร)
+  const letter = name[0];
+  const num = parseInt(name.slice(1), 10);
+  const base: Record<string, number> = { A: 200, B: 300, C: 400, V: 500 };
+  const start = base[letter] ?? 100;
+  return `FD22_${start + num}`;
+}
+
+// Session display id like S26032936686A — derived from session id
+export function sessionDisplayCode(id: string): string {
+  const hex = id.replace(/-/g, "").toUpperCase();
+  return "S" + hex.slice(0, 11) + "A";
+}
+
+// Order display number like ORD260329444B7 — derived from order id + timestamp
+export function orderDisplayCode(id: string, at: number): string {
+  const date = new Date(at);
+  const ymd =
+    String(date.getFullYear()).slice(2) +
+    String(date.getMonth() + 1).padStart(2, "0") +
+    String(date.getDate()).padStart(2, "0");
+  const tail = id.replace(/-/g, "").toUpperCase().slice(0, 5);
+  return "ORD" + ymd + tail;
+}
+
+// Past payments (for the bottom list on cashier page)
+export type PastPayment = {
+  id: string;
+  no: number;
+  tableCode: string;
+  paidAt: number;
+  type: "normal" | "buffet" | "buffet_plus";
+  method: "cash" | "qr" | "card";
+  staff: string;
+  normalAmount: number;
+  buffetAmount: number;
+  received: number;
+  change: number;
+};
+
+const __now = Date.now();
+export const pastPayments: PastPayment[] = [
+  {
+    id: "p1", no: 1, tableCode: "FD22_204",
+    paidAt: __now - 90 * 60_000,
+    type: "normal", method: "cash", staff: "admin",
+    normalAmount: 455, buffetAmount: 0, received: 500, change: 45,
+  },
+  {
+    id: "p2", no: 2, tableCode: "FD22_001",
+    paidAt: __now - 95 * 60_000,
+    type: "buffet", method: "qr", staff: "cashier cashier",
+    normalAmount: 0, buffetAmount: 997.5, received: 997.5, change: 0,
+  },
+  {
+    id: "p3", no: 3, tableCode: "FD22_203",
+    paidAt: __now - 120 * 60_000,
+    type: "buffet", method: "qr", staff: "admin",
+    normalAmount: 0, buffetAmount: 398, received: 398, change: 0,
+  },
+  {
+    id: "p4", no: 4, tableCode: "FD22_002",
+    paidAt: __now - 124 * 60_000,
+    type: "normal", method: "cash", staff: "admin",
+    normalAmount: 347, buffetAmount: 0, received: 500, change: 153,
+  },
+  {
+    id: "p5", no: 5, tableCode: "FD22_001",
+    paidAt: __now - 130 * 60_000,
+    type: "buffet_plus", method: "qr", staff: "admin",
+    normalAmount: 39, buffetAmount: 997.5, received: 1036.5, change: 0,
+  },
+];
 
 // --- Zones / Tables (20 tables) ---
 const ZONES = [
