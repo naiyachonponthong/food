@@ -3,6 +3,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { OpenTableDialog } from "@/components/OpenTableDialog";
 import { TableDetailDrawer } from "@/components/TableDetailDrawer";
 import { AuthGuard } from "@/components/AuthGuard";
+import { RealtimeBridge } from "@/components/RealtimeBridge";
 
 export default function DashboardLayout({
   children,
@@ -11,6 +12,7 @@ export default function DashboardLayout({
 }) {
   return (
     <AuthGuard>
+      <RealtimeBridge />
       <div className="flex min-h-screen">
         <Sidebar />
         <div className="flex min-w-0 flex-1 flex-col">{children}</div>
