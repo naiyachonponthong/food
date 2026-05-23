@@ -149,6 +149,16 @@ export const menus: MenuItem[] = [
   { id: "m_bua_loy", categoryId: "dessert", name: "บัวลอยไข่หวานกะทิสด", nameEn: "Bua Loy", description: "บัวลอยเหนียวนุ่ม ใส่ไข่หวาน", price: 55, cost: 18, tags: [], isAvailable: false, isFeatured: false, soldCount: 42 },
 ];
 
+// FoodStory-style display code for tables (FD22_201 ...)
+export function tableDisplayCode(name: string): string {
+  const letter = name[0];
+  const num = parseInt(name.slice(1), 10);
+  const base: Record<string, number> = { A: 200, B: 300, C: 400, V: 500 };
+  const start = base[letter] ?? 100;
+  return `FD22_${start + num}`;
+}
+export const BRANCH_NAME = "สาขาหลัก";
+
 // --- Tables ---
 let tnum = 0;
 function mkT(zone: string, letter: string, capacity: number, qrType: "static" | "dynamic" = "static"): Table {

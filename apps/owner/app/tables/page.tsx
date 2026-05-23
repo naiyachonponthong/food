@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { Plus, QrCode, Download, Printer, Sparkles } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
-import { tables, type Table } from "@/lib/mock-data";
+import { tables, tableDisplayCode, type Table } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 export default function TablesPage() {
@@ -28,7 +28,7 @@ export default function TablesPage() {
               <Download className="h-4 w-4" />
               Export QR ทั้งหมด (PDF)
             </button>
-            <button className="inline-flex items-center gap-2 rounded-2xl bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-pop hover:bg-brand-600">
+            <button className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-pop hover:bg-blue-700">
               <Plus className="h-4 w-4" strokeWidth={2.5} />
               เพิ่มโต๊ะ
             </button>
@@ -65,6 +65,9 @@ export default function TablesPage() {
                         {t.qrType === "dynamic" && (
                           <Sparkles className="h-3.5 w-3.5 text-brand-500" />
                         )}
+                      </div>
+                      <div className="mt-0.5 font-mono text-[10px] text-ink-400">
+                        {tableDisplayCode(t.name)}
                       </div>
                       <div className="mt-1 text-[10px] text-ink-400">
                         {t.capacity} ที่นั่ง
@@ -103,7 +106,12 @@ function QrPreview({ table }: { table: Table }) {
           <div className="text-[10px] font-semibold uppercase tracking-wider text-ink-400">
             QR Code Preview
           </div>
-          <div className="text-lg font-bold text-ink-800">โต๊ะ {table.name}</div>
+          <div className="flex items-baseline gap-2">
+            <div className="font-mono text-base font-bold text-ink-800">
+              {tableDisplayCode(table.name)}
+            </div>
+            <div className="text-sm text-ink-500">· โต๊ะ {table.name}</div>
+          </div>
           <div className="text-xs text-ink-500">{table.zone}</div>
         </div>
         <span
@@ -153,7 +161,7 @@ function QrPreview({ table }: { table: Table }) {
           <div className="mt-1 text-[11px]">
             พิมพ์ด้วยวัสดุกันน้ำอย่างดี ส่งถึงร้านใน 14 วัน
           </div>
-          <button className="mt-2 w-full rounded-xl bg-brand-500 py-2 text-[11px] font-semibold text-white shadow-pop">
+          <button className="mt-2 w-full rounded-xl bg-blue-600 py-2 text-[11px] font-semibold text-white shadow-pop">
             ลงทะเบียน
           </button>
         </div>

@@ -181,7 +181,7 @@ function QRSection({
         disabled={verifying}
         className={cn(
           "mt-4 w-full rounded-2xl py-4 font-semibold text-white shadow-pop transition-all",
-          verifying ? "bg-ink-400" : "bg-brand-500 hover:bg-brand-600",
+          verifying ? "bg-ink-400" : "bg-blue-600 hover:bg-blue-700",
         )}
       >
         {verifying ? (

@@ -240,7 +240,7 @@ export default function MenuDetailPage() {
               className={cn(
                 "flex flex-1 items-center justify-center gap-2 rounded-2xl py-4 font-semibold text-white shadow-pop transition-all",
                 requiredOk
-                  ? "bg-brand-500 hover:bg-brand-600"
+                  ? "bg-blue-600 hover:bg-blue-700"
                   : "bg-ink-200 shadow-none",
               )}
             >

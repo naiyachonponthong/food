@@ -179,7 +179,7 @@ export default function BillPage() {
             onClick={() => setConfirmOpen(true)}
             className={cn(
               "w-full rounded-2xl py-4 font-semibold text-white",
-              method ? "bg-brand-500 shadow-pop" : "bg-ink-200",
+              method ? "bg-blue-600 shadow-pop" : "bg-ink-200",
             )}
           >
             ดำเนินการต่อ
@@ -202,7 +202,7 @@ export default function BillPage() {
             </button>
             <button
               onClick={handleProceed}
-              className="flex-1 rounded-2xl bg-brand-500 py-3.5 font-semibold text-white shadow-pop"
+              className="flex-1 rounded-2xl bg-blue-600 py-3.5 font-semibold text-white shadow-pop"
             >
               ยืนยัน
             </button>

@@ -49,7 +49,7 @@ export default function CartPage() {
           </p>
           <button
             onClick={() => router.push(`/${params.token}`)}
-            className="mt-6 rounded-2xl bg-brand-500 px-8 py-3 font-semibold text-white shadow-pop"
+            className="mt-6 rounded-2xl bg-blue-600 px-8 py-3 font-semibold text-white shadow-pop"
           >
             ดูเมนู
           </button>
@@ -173,7 +173,7 @@ export default function CartPage() {
         <div className="mx-auto max-w-md border-t border-cream-200 bg-white/95 px-4 py-3 backdrop-blur">
           <button
             onClick={() => setConfirmOpen(true)}
-            className="flex w-full items-center justify-between rounded-2xl bg-brand-500 px-5 py-4 font-semibold text-white shadow-pop hover:bg-brand-600"
+            className="flex w-full items-center justify-between rounded-2xl bg-blue-600 px-5 py-4 font-semibold text-white shadow-pop hover:bg-blue-700"
           >
             <span>สั่ง {cart.length} รายการ</span>
             <span className="tabular">{formatPrice(subtotal)}</span>
@@ -193,7 +193,7 @@ export default function CartPage() {
               if (editing) updateNote(editing, draftNote);
               setEditing(null);
             }}
-            className="w-full rounded-2xl bg-brand-500 py-4 font-semibold text-white shadow-pop"
+            className="w-full rounded-2xl bg-blue-600 py-4 font-semibold text-white shadow-pop"
           >
             บันทึก
           </button>
@@ -224,7 +224,7 @@ export default function CartPage() {
             </button>
             <button
               onClick={handlePlace}
-              className="flex-1 rounded-2xl bg-brand-500 py-3.5 font-semibold text-white shadow-pop"
+              className="flex-1 rounded-2xl bg-blue-600 py-3.5 font-semibold text-white shadow-pop"
             >
               ยืนยัน
             </button>

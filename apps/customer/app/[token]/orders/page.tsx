@@ -97,7 +97,7 @@ export default function OrdersPage() {
           </p>
           <button
             onClick={() => router.push(`/${params.token}`)}
-            className="mt-6 rounded-2xl bg-brand-500 px-8 py-3 font-semibold text-white shadow-pop"
+            className="mt-6 rounded-2xl bg-blue-600 px-8 py-3 font-semibold text-white shadow-pop"
           >
             ดูเมนู
           </button>

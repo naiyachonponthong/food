@@ -3,7 +3,7 @@
 import { useState } from "react";
 import {
   Plus,
-  Sparkles,
+  Crown,
   Clock,
   Bell,
   Repeat,
@@ -39,7 +39,7 @@ export default function PackagesPage() {
         title="แพ็กเกจบุฟเฟ่ต์"
         subtitle={`${list.length} แพ็กเกจ · โหมดบุฟเฟ่ต์`}
         action={
-          <button className="inline-flex items-center gap-2 rounded-2xl bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-pop hover:bg-brand-600">
+          <button className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-pop hover:bg-blue-700">
             <Plus className="h-4 w-4" strokeWidth={2.5} />
             สร้างแพ็กเกจใหม่
           </button>
@@ -76,7 +76,7 @@ export default function PackagesPage() {
                         </h3>
                         {p.id === "pkg_premium" && (
                           <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-2 py-0.5 text-[10px] font-bold uppercase text-white">
-                            <Sparkles className="h-2.5 w-2.5" />
+                            <Crown className="h-2.5 w-2.5" />
                             Premium
                           </span>
                         )}

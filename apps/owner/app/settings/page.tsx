@@ -195,7 +195,7 @@ export default function SettingsPage() {
             <button className="rounded-2xl border-2 border-cream-300 bg-white px-5 py-2.5 text-sm font-semibold text-ink-700 hover:bg-cream-100">
               ยกเลิก
             </button>
-            <button className="rounded-2xl bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-pop hover:bg-brand-600">
+            <button className="rounded-2xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-pop hover:bg-blue-700">
               บันทึก
             </button>
           </div>
