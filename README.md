@@ -24,6 +24,7 @@ mobile-order/
 │   ├── customer/        # Part 1: Customer PWA (port 3000)
 │   ├── pos/             # Part 2: POS + Kitchen Display (port 3001)
 │   └── owner/           # Part 3: Owner Console (port 3002)
+├── backend/             # Part 4: Laravel 13 API (port 8000)
 ├── packages/            # (shared types/ui — coming in later parts)
 ├── pnpm-workspace.yaml
 ├── package.json
@@ -44,7 +45,14 @@ pnpm dev:pos
 
 # Owner Console — http://localhost:3002
 pnpm dev:owner
+
+# Laravel API — http://localhost:8000
+cd backend
+php artisan migrate:fresh --seed   # one-time
+php artisan serve
 ```
+
+**Seeded login:** `owner@plearn.test` / `password` (also `staff@…` and `kitchen@…`).
 
 Customer: open `http://localhost:3000` → tap "ลองใช้งานเดโม" → demo session at `/demo-session-token`.
 POS: open `http://localhost:3001` → redirects to `/tables`. Use "จำลองเหตุการณ์" to push notifications.
@@ -95,7 +103,38 @@ POS: open `http://localhost:3001` → redirects to `/tables`. Use "จำลอ�
 All charts are pure SVG (no external deps), responsive, with formatted
 ฿k labels.
 
-## Coming in next parts
+## Part 4 — Laravel Backend: what's done
 
-- Part 4 — Laravel backend (migrations, controllers, API)
-- Part 5 — Pusher real-time + GBPrimePay integration + Buffet mode
+- Laravel 13 + PHP 8.4 + SQLite (HostAtom MySQL-compatible schema).
+- Sanctum bearer-token auth, role on the token's abilities.
+- 13 migrations / 18 tables matching SYSTEM_DESIGN sec 6
+  (restaurants, restaurant_settings, users, menu_categories, menus,
+  menu_options, menu_option_choices, packages, package_items,
+  package_addons, tables, table_sessions, orders, order_items,
+  order_item_options, payments, expense_categories, expenses,
+  notifications) — all UUID PKs.
+- 18 Eloquent models with relationships + casts.
+- 13 controllers: Auth, Restaurant, MenuCategory, Menu, Table,
+  Session, Order, Kitchen, Payment, Notification, Expense, Dashboard,
+  Public/Customer.
+- Services: `QrCodeService` (endroid/qr-code → data URI),
+  `OrderCalculatorService` (Normal + Buffet bill math, applies
+  service charge + VAT from restaurant settings).
+- **69 API routes** under `/api/v1` covering Auth, Restaurant,
+  Menus, Categories, Tables (incl. QR generation), Sessions
+  (open/timer/extend/close/summary), Orders, Kitchen queue,
+  Payments (cash/QR/slip/verify), Notifications, Expenses,
+  Dashboard (summary/sales/top-menus/P&L/hourly), and the public
+  customer endpoints `/public/{token}/...`.
+- Seeder builds "ครัวเพลิน": 17 menus / 7 categories, 20 tables,
+  2 buffet packages with items + addons, 7 expense categories with
+  sample entries, 3 user logins.
+
+End-to-end test passes from staff login → open session → customer
+fetches menus → places order → calls staff → kitchen queue shows
+the order → bill total computes correctly with service charge + VAT.
+
+## Coming next
+
+- Part 5 — Pusher real-time + GBPrimePay integration + Buffet timer
+  cron + wire the 3 frontend apps to this API (replace mock data).

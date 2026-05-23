@@ -13,3 +13,15 @@ dist
 coverage
 .idea
 .vscode
+
+# Laravel backend
+backend/vendor
+backend/storage/logs/*.log
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/framework/testing
+backend/database/database.sqlite
+backend/.env
+backend/.phpunit.cache
+backend/bootstrap/cache/*.php
