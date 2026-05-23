@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useAuthStore } from "@/lib/auth-store";
+import { usePosStore } from "@/lib/pos-store";
 
 /**
  * Wraps protected dashboard pages: re-hydrates the bearer token from
@@ -15,6 +16,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const token = useAuthStore((s) => s.token);
   const user = useAuthStore((s) => s.user);
   const rehydrate = useAuthStore((s) => s.rehydrate);
+  const hydrateFromApi = usePosStore((s) => s.hydrateFromApi);
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
@@ -27,8 +29,13 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
       await rehydrate();
       if (!cancelled) {
         const stillHasUser = useAuthStore.getState().user;
-        if (!stillHasUser) router.replace("/login");
-        else setChecking(false);
+        if (!stillHasUser) {
+          router.replace("/login");
+        } else {
+          // Hydrate POS state from real backend
+          await hydrateFromApi();
+          setChecking(false);
+        }
       }
     })();
     return () => {

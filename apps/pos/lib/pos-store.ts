@@ -1,6 +1,7 @@
 "use client";
 
 import { create } from "zustand";
+import { api } from "./api";
 import {
   initialNotifications,
   orders as seedOrders,
@@ -24,6 +25,8 @@ type State = {
   selectedTableId: string | null;
   drawerOpen: boolean;
   openTableModal: boolean;
+  apiReady: boolean;
+  apiError: string | null;
 
   // selectors
   unreadCount: () => number;
@@ -52,6 +55,9 @@ type State = {
   triggerRandomEvent: () => void;
   ackCallStaff: (sessionId: string) => void;
   markBillPaid: (sessionId: string) => void;
+
+  // API hydration
+  hydrateFromApi: () => Promise<void>;
 };
 
 let nextIdCounter = 100;
@@ -75,6 +81,8 @@ export const usePosStore = create<State>((set, get) => ({
   selectedTableId: null,
   drawerOpen: false,
   openTableModal: false,
+  apiReady: false,
+  apiError: null,
 
   unreadCount: () => get().notifications.filter((n) => !n.isRead).length,
 
@@ -211,6 +219,93 @@ export const usePosStore = create<State>((set, get) => ({
         selectedTableId: null,
       };
     }),
+
+  hydrateFromApi: async () => {
+    try {
+      const [tablesRes, ordersRes, notifsRes] = await Promise.all([
+        api.tables() as Promise<{ tables: any[] }>,
+        api.orders() as Promise<{ orders: { data: any[] } | any[] }>,
+        api.notifications() as Promise<{ notifications: any[] }>,
+      ]);
+
+      // Map API → store types
+      const tables: Table[] = tablesRes.tables.map((t: any) => ({
+        id: t.id,
+        number: t.number,
+        name: t.name,
+        capacity: t.capacity,
+        zone: t.zone ?? "",
+        qrType: t.qr_type,
+        status: t.status,
+      }));
+
+      const sessions: Session[] = tablesRes.tables
+        .filter((t: any) => t.active_session)
+        .map((t: any) => {
+          const s = t.active_session;
+          return {
+            id: s.id,
+            tableId: t.id,
+            tableName: t.name,
+            guestCount: s.guest_count,
+            openedAt: new Date(s.opened_at).getTime(),
+            staff: "—",
+            totalAmount: 0,
+            itemsCount: 0,
+            isBuffet: !!s.package_id,
+            guestAdult: s.guest_adult,
+            guestChild: s.guest_child,
+          };
+        });
+
+      const ordersData = Array.isArray(ordersRes.orders)
+        ? ordersRes.orders
+        : (ordersRes.orders.data ?? []);
+      const orders: Order[] = ordersData.map((o: any) => ({
+        id: o.id,
+        orderNumber: o.order_number,
+        roundNumber: o.round_number,
+        tableId: o.session?.table?.id ?? "",
+        tableName: o.session?.table?.name ?? "",
+        sessionId: o.session_id,
+        status: o.status,
+        items: (o.items ?? []).map((it: any) => ({
+          id: it.id,
+          menuId: it.menu_id,
+          name: it.name,
+          price: Number(it.price),
+          quantity: it.quantity,
+          note: it.note ?? undefined,
+          options: (it.options ?? []).map((op: any) => ({
+            name: op.name,
+            priceAddon: Number(op.price_addon),
+          })),
+          status: it.status,
+          orderedBy: "—",
+        })),
+        total: Number(o.total),
+        placedAt: new Date(o.created_at).getTime(),
+      }));
+
+      const notifications: Notification[] = notifsRes.notifications.map(
+        (n: any) => ({
+          id: n.id,
+          type: (n.type as string).replace(/_/g, "-") as Notification["type"],
+          title: n.title,
+          body: n.body ?? "",
+          tableName: n.data?.table_name ?? "—",
+          at: new Date(n.created_at).getTime(),
+          isRead: !!n.is_read,
+        }),
+      );
+
+      set({ tables, sessions, orders, notifications, apiReady: true, apiError: null });
+    } catch (e: unknown) {
+      set({
+        apiError: e instanceof Error ? e.message : "API hydrate failed",
+      });
+    }
+  },
 }));
 
 export type { Order, OrderItem, Session, Table, TableStatus };
