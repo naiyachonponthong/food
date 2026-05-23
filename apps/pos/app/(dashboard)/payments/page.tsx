@@ -1,6 +1,7 @@
 "use client";
 
-import { Receipt, CheckCircle2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Receipt, CheckCircle2, Sparkles, ArrowRight } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
 import { usePosStore } from "@/lib/pos-store";
 import { cn, formatPrice, formatTime } from "@/lib/utils";
@@ -10,6 +11,7 @@ export default function PaymentsPage() {
   const notifications = usePosStore((s) => s.notifications);
   const markPaid = usePosStore((s) => s.markBillPaid);
   const selectTable = usePosStore((s) => s.selectTable);
+  const router = useRouter();
 
   const billRequested = sessions.filter((s) => s.hasBillRequest);
   const paid = notifications.filter((n) => n.type === "payment-received").slice(0, 10);
@@ -36,8 +38,16 @@ export default function PaymentsPage() {
                   className="overflow-hidden rounded-2xl border-2 border-blue-200 bg-white shadow-soft"
                 >
                   <div className="flex items-center justify-between bg-blue-50 px-4 py-2.5">
-                    <div className="text-2xl font-bold tabular text-ink-800">
-                      {s.tableName}
+                    <div className="flex items-baseline gap-2">
+                      <div className="text-2xl font-bold tabular text-ink-800">
+                        {s.tableName}
+                      </div>
+                      {s.isBuffet && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-500 px-2 py-0.5 text-[9px] font-bold uppercase text-white">
+                          <Sparkles className="h-2.5 w-2.5" />
+                          Buffet
+                        </span>
+                      )}
                     </div>
                     <span className="rounded-full bg-blue-500 px-2.5 py-0.5 text-[10px] font-bold text-white">
                       รอเช็คบิล
@@ -45,7 +55,11 @@ export default function PaymentsPage() {
                   </div>
                   <div className="px-4 py-3 space-y-2">
                     <div className="flex items-center justify-between text-xs text-ink-500">
-                      <span>{s.guestCount} คน</span>
+                      <span>
+                        {s.isBuffet
+                          ? `${s.guestAdult} ผู้ใหญ่ · ${s.guestChild} เด็ก`
+                          : `${s.guestCount} คน`}
+                      </span>
                       <span>{s.itemsCount} รายการ</span>
                     </div>
                     <div className="flex items-baseline justify-between border-t border-dashed border-cream-300 pt-2">
@@ -60,13 +74,14 @@ export default function PaymentsPage() {
                       onClick={() => selectTable(s.tableId)}
                       className="rounded-xl border border-cream-300 bg-white py-2 text-xs font-semibold text-ink-700 hover:bg-cream-100"
                     >
-                      ดูรายละเอียด
+                      ดูออเดอร์
                     </button>
                     <button
-                      onClick={() => markPaid(s.id)}
-                      className="rounded-xl bg-brand-500 py-2 text-xs font-semibold text-white shadow-pop hover:bg-brand-600"
+                      onClick={() => router.push(`/payments/${s.id}`)}
+                      className="inline-flex items-center justify-center gap-1 rounded-xl bg-brand-500 py-2 text-xs font-semibold text-white shadow-pop hover:bg-brand-600"
                     >
-                      ยืนยันชำระ
+                      รับชำระ
+                      <ArrowRight className="h-3 w-3" />
                     </button>
                   </div>
                 </div>

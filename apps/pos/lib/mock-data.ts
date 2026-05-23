@@ -62,6 +62,16 @@ export type Session = {
   itemsCount: number;
   hasCallStaff?: { reason: string; at: number };
   hasBillRequest?: boolean;
+  // Buffet fields
+  isBuffet?: boolean;
+  packageName?: string;
+  priceAdult?: number;
+  priceChild?: number;
+  guestAdult?: number;
+  guestChild?: number;
+  addonCharge?: number;
+  extensionCharge?: number;
+  packageRounds?: number;
 };
 
 export type Notification = {
@@ -167,9 +177,19 @@ export const sessions: Session[] = [
     guestCount: 3,
     openedAt: now - 65 * 60 * 1000,
     staff: "พนักงาน Nawawat",
-    totalAmount: 920,
+    // Buffet: 2 adults × 399 + 1 child × 199.5 + 89 addon = 1086.50
+    totalAmount: 1086.5,
     itemsCount: 8,
     hasBillRequest: true,
+    isBuffet: true,
+    packageName: "Premium Buffet",
+    priceAdult: 399,
+    priceChild: 199.5,
+    guestAdult: 2,
+    guestChild: 1,
+    addonCharge: 89,
+    extensionCharge: 0,
+    packageRounds: 2,
   },
   {
     id: "s_4",
@@ -198,8 +218,18 @@ export const sessions: Session[] = [
     guestCount: 6,
     openedAt: now - 50 * 60 * 1000,
     staff: "พนักงาน Mai",
-    totalAmount: 1450,
+    // Buffet: 5 adults × 399 + 1 child × 199.5 + 280 addon + 100 extension = 2574.50
+    totalAmount: 2574.5,
     itemsCount: 12,
+    isBuffet: true,
+    packageName: "Premium Buffet",
+    priceAdult: 399,
+    priceChild: 199.5,
+    guestAdult: 5,
+    guestChild: 1,
+    addonCharge: 280,
+    extensionCharge: 100,
+    packageRounds: 3,
   },
 ];
 
